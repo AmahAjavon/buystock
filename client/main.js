@@ -4,11 +4,12 @@ $(document).ready(init);
 
 var totalPosition = 0;
 var totalAssets = 0;
-var $update;
-var $sell;
+var $update = $('#update');
+var $sell = $('#sell');
 var sum = 0;
-var inp = parseFloat(clickVal);
 var clickVal = $('#cashin').val();
+var inp = parseFloat(clickVal);
+
 
 function init() {
   $('#buy').click(getData);
@@ -16,7 +17,7 @@ function init() {
     var clickVal = $('#cashin').val();
     var inp = parseFloat(clickVal);
     sum = inp + sum;
-    $('#sum').html('Balance is: $'+sum);
+    $('#sum').html('Balance is: $'+ sum);
     totalAssets = totalPosition + sum;
     $('#assets').html('Total Assets is: $' +totalAssets);
   });
@@ -52,15 +53,30 @@ function getData() {
 
       totalAssets = totalPosition + sum;
       $('#assets').html('Total Assets is: $' +totalAssets);
-    }
-    $('#update').click(function() {
-      console.log('update pressed');
-    });
-    // var $newUpdate = $div.html('Symbol: ' + data.Symbol +'<br/>'+ 'Quote: ' + data.LastPrice +'<br/>' + share + ' shares'+'<br/>' + 'Position: $'+ position +'<br/>');
-    // $newUpdate.append($show);
-    $('#sell').click(function() {
-      console.log('sell pressed');
-    });
 
+      $update.click(function() {
+
+        $.getJSON(url, function(data) {
+          var $div = $('<div>');
+          $div.addClass('answer');
+          var share = $('#shares').val();
+          var position = parseInt(data.LastPrice) * share;
+          var $show = $div.html('Symbol: ' + data.Symbol +'<br/>'+ 'Quote: ' + data.LastPrice +'<br/>' + share + ' shares'+'<br/>' + 'Position: $'+ position +'<br/>');
+          $('#messages').append($show);
+          $show.append($update, $sell);
+          $show.remove();
+          console.log(data.LastPrice);
+        });
+      });
+      // var $newUpdate = $div.html('Symbol: ' + data.Symbol +'<br/>'+ 'Quote: ' + data.LastPrice +'<br/>' + share + ' shares'+'<br/>' + 'Position: $'+ position +'<br/>');
+      // $newUpdate.append($show);
+      $sell.click(function() {
+        console.log('sell pressed');
+        $('#sum').html('Balance is: $'+ (sum += position));
+        $('#position').html('Total Position is: $' + (totalPosition -= position));
+        $show.remove();
+
+      });
+    }
   });
 }
