@@ -2,9 +2,33 @@ doctype html
 html(lang='en')
   head
     meta(charset='utf-8')
-    title Prototype
+    title Buy Sell Stocks
     link(rel='stylesheet', href='/style.css')
   body
-    h1 Hello, World
+    h1 Buy and Sell Stocks 
+    h3 Balances
+    .container
+      .row
+        .col-md-8#cashbalance
+          input#cashin(type='number')
+          button#addcash Add Cash
+          .balance
+            span#sum Balance is: 0
+    h3 Stock shares
+    .container
+      .row
+        .col-md-8#stockshare
+          p Please add the Company symbol
+          input#symbol(type='text')
+          p Please add the amount of shares
+          input#shares(type='number')
+          button#buy Buy
+          #messages
+    h3 Total position and assets
+    .container
+      .row
+        .col-md-8#totals
+          #position
+          #assets
     script(src='/vendor/jquery/dist/jquery.js')
     script(src='/main.js')
